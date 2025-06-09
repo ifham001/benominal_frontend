@@ -1,22 +1,64 @@
+import { showNotification } from '@/store/slices/Notification';
 import React,{useState} from 'react'
+import { useDispatch } from 'react-redux';
 
-function WhatsAppOtpHandler({firstStep}) {
+
+function WhatsAppOtpHandler({firstStep,phoneNumber}) {
     const [otp, setOtp] = useState('');
+    const dispatch = useDispatch();
     const handleEditPhone = () => {
-        // Logic to handle phone number editing
-        console.log('Edit phone number clicked');
-        firstStep(); // Call the first step function to go back to phone input
-        setOtp(''); // Clear the OTP input
+        firstStep(); 
+        setOtp(''); 
     };
     const handleVerifyOtp = () => {
-        // Logic to verify OTP
-        console.log(`Verify OTP: ${otp}`);
         if (otp.length !== 6) {
-            alert('Please enter a valid 6-digit OTP');
-            return;
+            return dispatch(showNotification({
+                message: 'Please enter a valid 6-digit OTP',
+                type: 'error',
+            }));
         }
-        // Add your verification logic here
-        console.log('OTP verified successfully');
+
+      const verifyOtp = async (otp,phoneNumber) => {
+            try {
+                const response = await fetch('http://localhost:3004/verify-otp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ phoneNumber, otp }),
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    return dispatch(showNotification({
+                        message: errorData.message || 'Failed to verify OTP. Please try again.',
+                        type: 'error',
+                    }));
+                }
+
+                const data = await response.json();
+                console.log(data);
+                dispatch(showNotification({
+                    message: data.message || 'OTP verified successfully!',
+                    type: 'success',
+                }));
+            } catch (error) {
+                console.error('Error verifying OTP:', error);
+                dispatch(showNotification({
+                    message: 'An error occurred while verifying OTP. Please try again.',
+                    type: 'error',
+                }));
+            }
+        }
+        try {
+            verifyOtp(otp, phoneNumber);
+        } catch (error) {
+            return dispatch(showNotification({
+                message: 'An error occurred while verifying OTP. Please try again.',
+                type: 'error',
+            }));
+        }
+        
 
     }
   return (

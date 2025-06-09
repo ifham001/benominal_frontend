@@ -36,7 +36,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Provider store={store}>
-        <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID}>
+        <GoogleOAuthProvider clientId={"450018528716-490ictmal5ne2vnov4c8ocipnjsfjrbu.apps.googleusercontent.com"}>
 
           <CacheProvider value={createEmotionCache()}>
             {!isAdminRoute && <Header />}

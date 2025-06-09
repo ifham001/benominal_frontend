@@ -16,7 +16,7 @@ function AddNewProduct() {
             images: JSON.parse(localStorage.getItem('productImages')),
         };
         // console.log(productDataWithImages);
-        const addNewProduct = await fetch('http://localhost:3005/add-product', {
+        const addNewProduct = await fetch('http://localhost:3004/add-product', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ function AddNewProduct() {
           });
       
           try {
-            const response = await fetch('http://localhost:3005/upload-images', {
+            const response = await fetch('http://localhost:3004/upload-images', {
               method: 'POST',
               body: formData, // Don't set Content-Type manually
             });

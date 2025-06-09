@@ -1,25 +1,26 @@
 import React, { useState } from 'react'
-import { GoogleLogin } from '@react-oauth/google'
 import { useDispatch } from 'react-redux'
+import { GoogleLogin } from '@react-oauth/google'
 import { showNotification } from '@/store/slices/Notification'
 
 function LoginByGoogle({ onClose }) {
   const dispatch = useDispatch()
-  const [clickedGoogleBtn, setClickedGoogleBtn] = useState(false)
+  
 
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
       setClickedGoogleBtn(true)
 
-      const res = await fetch('/api/google-login', {
-        method: 'POST',
+      const res = await fetch("http://localhost:3004/google-login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ credential: credentialResponse.credential }),
       })
 
       const data = await res.json()
+      console.log(data)
 
       if (!res.ok) {
         dispatch(
@@ -38,7 +39,8 @@ function LoginByGoogle({ onClose }) {
         })
       )
 
-      // localStorage.setItem('token', data.token)
+      // Assuming you have a login action to handle the user data
+
       if (onClose) onClose()
     } catch (err) {
       dispatch(
@@ -48,7 +50,7 @@ function LoginByGoogle({ onClose }) {
         })
       )
     } finally {
-      setClickedGoogleBtn(false)
+      
     }
   }
 
@@ -63,6 +65,7 @@ function LoginByGoogle({ onClose }) {
           })
         )
       }
+      useOneTap={false}
       shape="pill"
       size="medium"
       text="continue_with"

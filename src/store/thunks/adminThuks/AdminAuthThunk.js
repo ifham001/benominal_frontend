@@ -10,7 +10,7 @@ export const adminAuthThunk =(userData,usedispatch,router)=>{
  
  return  async (dispatch)=>{
         try {
-          const response =  await fetch('http://localhost:3005/admin-login',{
+          const response =  await fetch('http://localhost:3004/admin-login',{
             method:'POST',
             body:JSON.stringify(userData),
             headers:{

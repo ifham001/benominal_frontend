@@ -70,7 +70,7 @@ function ProductSubDisplay({ title, price, description, color, image }) {
 
         {/* Add to Bag Button */}
         <button className="flex items-center justify-center gap-2 flex-1 ml-2 py-1 rounded-full bg-[#1B4332] text-[#A37E2C] text-xs sm:text-sm font-medium">
-          <Image src={cart_icon} alt="Cart" width={14} height={14} />
+          <Image src={cart_icon} alt="Cart" width={'auto'} height={14} />
           Add to bag
         </button>
       </div>

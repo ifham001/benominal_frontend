@@ -9,12 +9,12 @@ import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import Button from "../button/Button";
 import necklace from "../../../public/collection/neck.png";
 
-export default function ProductMainPage() {
-  const productImages = [necklace, necklace, necklace];
+export default function ProductMainPage({images,title,description,price,stocksQuantity,productId,addToCart,buyNow}) {
+  const productImages = [images];
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
-  const stockAvailable = 12;
-
+  const stockAvailable = stocksQuantity ;
+  const actualPrice = Number(price) + 350;
   const handlePrevImage = () => {
     setActiveImageIndex((prev) =>
       prev === 0 ? productImages.length - 1 : prev - 1
@@ -25,6 +25,16 @@ export default function ProductMainPage() {
     setActiveImageIndex((prev) =>
       prev === productImages.length - 1 ? 0 : prev + 1
     );
+  };
+  const addToCartHandler = () => {
+    // Logic to add the product to the cart
+    addToCart({productId, quantity});
+    console.log(`Added ${quantity} of ${title} to cart`);
+  };
+  const BuyNowHandler = () => {
+    // Logic to handle the "Buy Now" action
+    buyNow({productId, quantity});
+    console.log(`Buying ${quantity} of ${title}`);
   };
 
   return (
@@ -77,11 +87,11 @@ export default function ProductMainPage() {
 
         {/* Product Info */}
         <div className="flex-1 space-y-4">
-          <h1 className="text-2xl font-semibold">Heart necklace</h1>
-          <div className="text-2xl text-green-700 font-bold">₹1,999</div>
-          <div className="text-gray-500 line-through">MRP ₹2,999</div>
+          <h1 className="text-2xl font-semibold">{title}</h1>
+          <div className="text-2xl text-green-700 font-bold">{`₹${price}`}</div>
+          <div className="text-gray-500 line-through">{`MRP ₹${actualPrice}`}</div>
           <p className="text-sm text-gray-700">
-            Anti-tarnish guarantee. Magnetic lock. Long-lasting finish.
+            {description}
           </p>
 
           {/* Stock and Quantity */}
@@ -127,10 +137,10 @@ export default function ProductMainPage() {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 mt-6">
-            <Button className="bg-white border text-green-800 px-6 py-2 rounded-full">
+            <Button onClick={BuyNowHandler} className="bg-white border text-green-800 px-6 py-2 rounded-full">
               Buy Now
             </Button>
-            <Button className="sm:w-80" variant="outline">
+            <Button onClick={addToCartHandler} className="sm:w-80" variant="outline">
               Add to bag
             </Button>
           </div>

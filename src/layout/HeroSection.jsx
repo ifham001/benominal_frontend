@@ -10,10 +10,11 @@ function HeroSection() {
     <div className="w-full px-2 md:px-8 overflow-hidden">
       <div className="relative flex items-center justify-center">
         <div className="relative w-full aspect-square md:aspect-auto md:h-[calc(100vh-80px)] rounded-2xl overflow-hidden">
-          <img
+          <Image
+            fill
             src={"https://storage.cloud.google.com/benominal/benominal_mains/hero-banner2.png"}
             alt="Hero"
-            
+            quality={100}
             className="object-cover brightness-65 transition-all duration-700 ease-in-out"
             
           />
